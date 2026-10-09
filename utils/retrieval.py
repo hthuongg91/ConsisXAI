@@ -18,8 +18,14 @@ def retrieve_artefact(folder, filename, file_end, vals_sep=None):
     if '.pickle' in file_end:
         with open(file, 'rb') as fin:
             retrieved_artefact = pickle.load(fin)
+    
     elif '.data' in file_end:
-        retrieved_artefact = pd.read_csv(file, sep=vals_sep, engine='python')
+        retrieved_artefact = pd.read_csv(
+            file,
+            sep=vals_sep,
+            header=None,
+            engine='python'
+        )
     elif '.arff' in file_end:
         data = arff.loadarff(file)
         retrieved_artefact = pd.DataFrame(data[0])
