@@ -5,6 +5,11 @@ from sklearn.preprocessing import MinMaxScaler, LabelEncoder, KBinsDiscretizer
 from sklearn.model_selection import train_test_split
 from imblearn.over_sampling import RandomOverSampler, SMOTE
 from imblearn.under_sampling import RandomUnderSampler, NearMiss, CondensedNearestNeighbour
+import math
+from collections import Counter
+
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import precision_recall_fscore_support
 
 def check_perf(output_txt, results, minority_class):
   original_recall = results['original'][1][minority_class]
@@ -187,9 +192,21 @@ def preprocessing(output_txt, ds_name, cols,target_name, filename, file_end, tar
       df[cc] = df[cc].astype('category').cat.codes
     df = pd.get_dummies(df, columns=one_hot_cols, drop_first=True)
 
+  
   df = df.apply(pd.to_numeric)
-      
-    
+
+  # Save the preprocessed dataset
+  output_dir = "uci_logs"
+  os.makedirs(output_dir, exist_ok=True)
+
+  output_file = os.path.join(
+      output_dir,
+      f"preprocessed_not_discretized_dataset_{filename}.csv"
+  )
+
+  df.to_csv(output_file, index=False)
+  print(f"Saved preprocessed dataset: {output_file}")
+
   y = df[target_name]
   X = df.drop([target_name], axis=1)
 

@@ -62,21 +62,36 @@ target_encoding = {'Heart':{0:0, 1:1, 2:1, 3:1, 4:1}, 'BreastC':{2:0, 4:1}}
 
 datasets_info = pd.DataFrame(columns=['Dataset_name', 'Columns', 'targets_names', 'files_names', 'files_ends', 'target_encoding'])
 datasets_info['Dataset_name'] = datasets
-for key in cols.keys() & targets_names.keys() & files_names.keys() & files_ends.keys(): #& target_encoding.keys():  
-  datasets_info.loc[datasets_info['Dataset_name'] == key, 'Columns'] = [cols[key]]
-  datasets_info.loc[datasets_info['Dataset_name'] == key, 'targets_names'] = targets_names[key]
-  datasets_info.loc[datasets_info['Dataset_name'] == key, 'files_names'] = files_names[key]
-  datasets_info.loc[datasets_info['Dataset_name'] == key, 'files_ends'] = files_ends[key]
-  if key in target_encoding.keys():
-    datasets_info.loc[datasets_info['Dataset_name'] == key, 'target_encoding'] = str(target_encoding[key])
-  else:
-    datasets_info.loc[datasets_info['Dataset_name'] == key, 'target_encoding'] = 'Already_encoded'
+
+
+for key in cols.keys() & targets_names.keys() & files_names.keys() & files_ends.keys():
+    row_index = datasets_info.index[datasets_info['Dataset_name'] == key][0]
+
+    datasets_info.at[row_index, 'Columns'] = cols[key]
+    datasets_info.at[row_index, 'targets_names'] = targets_names[key]
+    datasets_info.at[row_index, 'files_names'] = files_names[key]
+    datasets_info.at[row_index, 'files_ends'] = files_ends[key]
+
+    if key in target_encoding:
+        datasets_info.at[row_index, 'target_encoding'] = str(target_encoding[key])
+    else:
+        datasets_info.at[row_index, 'target_encoding'] = 'Already_encoded'
 
 for i in datasets_info['target_encoding']:
   if i != 'Already_encoded':
     i = ast.literal_eval(i)
 
-datasets_info.to_csv(os.path.join(logs_dir, 'datasets_info.csv'), sep=';', index=False)
-output_txt = os.path.join(logs_dir,'output.txt')
+
+# Thư mục lưu các file kết quả
+logs_dir = os.path.join('uci_logs')
+os.makedirs(logs_dir, exist_ok=True)
+
+datasets_info.to_csv(
+    os.path.join(logs_dir, 'datasets_info.csv'),
+    sep=';',
+    index=False
+)
+
+output_txt = os.path.join(logs_dir, 'output.txt')
 
 ##########################################################################################################################################

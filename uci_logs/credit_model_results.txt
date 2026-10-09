@@ -1,0 +1,39 @@
+THUC NGHIEM HUAN LUYEN MO HINH CREDIT
+So mau huan luyen: 552
+So mau kiem tra: 138
+
+=======================================================
+Mo hinh: Logistic Regression
+Accuracy: 0.8188
+ROC-AUC: 0.8970
+F1: 0.8252
+Confusion matrix:
+[[54  7]
+ [18 59]]
+Classification report:
+              precision    recall  f1-score   support
+
+           0       0.75      0.89      0.81        61
+           1       0.89      0.77      0.83        77
+
+    accuracy                           0.82       138
+   macro avg       0.82      0.83      0.82       138
+weighted avg       0.83      0.82      0.82       138
+
+=======================================================
+Mo hinh: XGBoost
+Accuracy: 0.8623
+ROC-AUC: 0.9110
+F1: 0.8758
+Confusion matrix:
+[[52  9]
+ [10 67]]
+Classification report:
+              precision    recall  f1-score   support
+
+           0       0.84      0.85      0.85        61
+           1       0.88      0.87      0.88        77
+
+    accuracy                           0.86       138
+   macro avg       0.86      0.86      0.86       138
+weighted avg       0.86      0.86      0.86       138
