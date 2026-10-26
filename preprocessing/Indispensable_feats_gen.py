@@ -7,7 +7,7 @@ from sklearn.metrics import roc_auc_score, f1_score, confusion_matrix,precision_
 from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
 from imblearn.over_sampling import RandomOverSampler, SMOTE
 from imblearn.under_sampling import RandomUnderSampler, NearMiss, CondensedNearestNeighbour
-from skrebate import TuRF
+from skrebate import TURF
 
 
 def refine_probabilities(l):
@@ -194,7 +194,7 @@ def compute_features_importances(ds, X_train, y_train, ffeatures,\
 
       try:
         #TuRF 
-        trelief_selector = TuRF(core_algorithm="ReliefF",n_features_to_select=len(ffeatures),\
+        trelief_selector = TURF(core_algorithm="ReliefF",n_features_to_select=len(ffeatures),\
                                 pct=0.3,verbose=True).fit(X_train.values, y_train.values, ffeatures)          
         results_df['TuRF'] = trelief_selector.feature_importances_      
         df_cols = ['feature', 'TuRF', 'IV', 'Information_gain_gini',
@@ -210,7 +210,7 @@ def compute_features_importances(ds, X_train, y_train, ffeatures,\
 
       calc_cols = results_df.columns.tolist()
       calc_cols.remove('feature')
-      results_df.drop('feature', 1, inplace=True)
+      results_df.drop(columns=['feature'], inplace=True)
       # shift columns containing negative values before normalization:
       l_negative = results_df.columns[(results_df < 0).any()].tolist()
       if l_negative:
@@ -226,7 +226,10 @@ def compute_features_importances(ds, X_train, y_train, ffeatures,\
       #results_df = pd.DataFrame(std_scaler.transform(results_df), columns=results_df.columns)
       #get the mean score of each criteria
       results_df_mean = results_df[[x for x in results_df.columns.values]].mean()
-      results_df = results_df.append(results_df_mean, ignore_index=True)
+      results_df = pd.concat(
+        [results_df, results_df_mean.to_frame().T],
+        ignore_index=True
+      )
       results_df['feature'] = ffeatures + ['mean_threshold']
       #rearrange columns to bring the 'feature' column to the front
       cols = results_df.columns.tolist()

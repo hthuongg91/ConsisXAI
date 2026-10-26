@@ -1,7 +1,7 @@
-import numbers
+﻿import numbers
 from math import log
 
-ef calculate_abic(n, ratio, num_params,calctype):
+def calculate_abic(n, ratio, num_params,calctype):
   ''' ratio is the reduct ratio or core ratio values, n is the number of 
   samples in the dataset, num_params is the length of the intersection set'''
 
@@ -34,3 +34,4 @@ def get_consistency_val(computed_ratio, dataset_ratio):
       val = 'Undefined'  
   return val
   
+
