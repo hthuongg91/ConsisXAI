@@ -9,7 +9,7 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.model_selection import train_test_split
 from utils.retrieval import retrieve_artefact, retrieve_vector, get_imp_features
 from preprocessing.datasets_preprocessing import scale_update, compute_class_counts
-from preprocessing.Indispensable_feats_gen import compute_features_importance
+from preprocessing.Indispensable_feats_gen import compute_features_importances
 from modeling.Models_training import train_models
 from evaluation.Consistency_measures import calculate_abic
 from evaluation.Consistency_ratios import compute_reducts_core, ComputeRatio
