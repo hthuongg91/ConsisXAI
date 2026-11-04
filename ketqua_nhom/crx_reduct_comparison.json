@@ -1,0 +1,248 @@
+{
+  "threshold_min_mean": 0.07656609245874202,
+  "reducts_saved": {
+    "embedded_logit": [
+      "30.83",
+      "0",
+      "w",
+      "v",
+      "1.25",
+      "01",
+      "00202",
+      "b_a",
+      "b_b",
+      "f_t",
+      "t.1_t",
+      "t_t",
+      "u_l",
+      "u_u",
+      "u_y",
+      "g.1_p",
+      "g.1_s",
+      "g_g",
+      "g_gg",
+      "g_p"
+    ],
+    "embedded_xgboost": [
+      "30.83",
+      "0",
+      "w",
+      "v",
+      "1.25",
+      "01",
+      "00202",
+      "0.1",
+      "b_a",
+      "b_b",
+      "f_t",
+      "t.1_t",
+      "t_t",
+      "u_u",
+      "u_y",
+      "g_g",
+      "g_p"
+    ],
+    "embedded_rf": [
+      "30.83",
+      "0",
+      "w",
+      "v",
+      "1.25",
+      "01",
+      "00202",
+      "0.1",
+      "b_a",
+      "b_b",
+      "f_t",
+      "t.1_t",
+      "t_t",
+      "u_u",
+      "u_y",
+      "g.1_s",
+      "g_g",
+      "g_p"
+    ],
+    "embedded_gbm": [
+      "30.83",
+      "0",
+      "w",
+      "1.25",
+      "01",
+      "00202",
+      "0.1",
+      "t_t",
+      "g.1_p"
+    ],
+    "Information_gain_entropy": [
+      "30.83",
+      "0",
+      "w",
+      "1.25",
+      "01",
+      "0.1",
+      "t.1_t",
+      "t_t",
+      "u_u",
+      "u_y",
+      "g.1_s",
+      "g_g",
+      "g_p"
+    ],
+    "Information_gain_gini": [
+      "30.83",
+      "0",
+      "w",
+      "1.25",
+      "01",
+      "0.1",
+      "t.1_t",
+      "t_t",
+      "u_u",
+      "u_y",
+      "g.1_s",
+      "g_g",
+      "g_p"
+    ],
+    "IV": [
+      "30.83",
+      "0",
+      "w",
+      "1.25",
+      "t.1_t",
+      "t_t",
+      "u_u",
+      "u_y",
+      "g.1_s",
+      "g_g",
+      "g_p"
+    ],
+    "Chi/ANOVA": [
+      "30.83",
+      "0",
+      "1.25",
+      "01",
+      "0.1",
+      "t.1_t",
+      "t_t",
+      "u_u",
+      "u_y",
+      "g_g",
+      "g_p"
+    ]
+  },
+  "reducts_algorithm_3_1": {
+    "embedded_logit": [
+      "30.83",
+      "0",
+      "w",
+      "v",
+      "1.25",
+      "01",
+      "00202",
+      "b_a",
+      "b_b",
+      "f_t",
+      "t.1_t",
+      "u_l",
+      "u_u",
+      "u_y",
+      "g.1_p",
+      "g.1_s",
+      "g_g",
+      "g_gg",
+      "g_p"
+    ],
+    "embedded_xgboost": [
+      "01",
+      "0.1",
+      "b_b",
+      "t.1_t",
+      "t_t",
+      "u_u",
+      "g_p"
+    ],
+    "embedded_rf": [
+      "30.83",
+      "0",
+      "w",
+      "v",
+      "1.25",
+      "01",
+      "00202",
+      "0.1",
+      "f_t",
+      "t.1_t",
+      "t_t"
+    ],
+    "embedded_gbm": [
+      "30.83",
+      "1.25",
+      "0.1",
+      "t_t"
+    ],
+    "Information_gain_entropy": [
+      "w",
+      "1.25",
+      "t.1_t",
+      "t_t"
+    ],
+    "Information_gain_gini": [
+      "0",
+      "w",
+      "1.25",
+      "t.1_t",
+      "t_t"
+    ],
+    "IV": [
+      "w",
+      "t.1_t",
+      "t_t"
+    ],
+    "Chi/ANOVA": [
+      "1.25",
+      "01",
+      "t.1_t",
+      "t_t"
+    ]
+  },
+  "shortest_method_saved": "embedded_gbm",
+  "shortest_reduct_saved": [
+    "30.83",
+    "0",
+    "w",
+    "1.25",
+    "01",
+    "00202",
+    "0.1",
+    "t_t",
+    "g.1_p"
+  ],
+  "core_saved": [
+    "30.83",
+    "0",
+    "1.25",
+    "t_t"
+  ],
+  "core_algorithm_3_1": [],
+  "saved_reducts_match_algorithm_3_1": false,
+  "saved_reduct_threshold_interval": {
+    "lower_exclusive": 0.0140623534197207,
+    "upper_inclusive": 0.0170941505221913,
+    "exists": true
+  },
+  "xai_topk_normalization": "Min-Max within selected top-K; group analysis choice",
+  "ratio_definitions": {
+    "ratio_count": "intersection_count/K",
+    "ratio_score": "sum_scaled_XAI_scores_on_intersection/K"
+  },
+  "aic_bic": {
+    "ratio_complement": "1-ratio",
+    "parameter_count": "K-intersection",
+    "N": 552
+  },
+  "bootstrap": {
+    "B": 2000,
+    "SHAP": "resample SHAP rows",
+    "Permutation": "resample saved permutation repeats"
+  }
+}
