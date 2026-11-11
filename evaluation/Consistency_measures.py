@@ -1,4 +1,4 @@
-import numbers
+﻿import numbers
 from math import log
 
 def calculate_abic(n, ratio, num_params, calctype):
