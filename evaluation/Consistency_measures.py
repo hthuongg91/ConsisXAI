@@ -1,23 +1,28 @@
 ﻿import numbers
 from math import log
 
-def calculate_abic(n, ratio, num_params,calctype):
-  ''' ratio is the reduct ratio or core ratio values, n is the number of 
-  samples in the dataset, num_params is the length of the intersection set'''
+def calculate_abic(n, ratio, num_params, calctype):
+    """
+    ratio: reduct ratio or core ratio
+    n: number of samples
+    num_params: length of intersection set
+    """
+    complement = 1 - ratio
 
-  ratio = 1 - ratio #computing based on the complement
-  if ratio >= 0 :
-    print(ratio)
-    if calctype == 'AIC':     
-      val = -2 * log(ratio,2) + 2 * num_params 
+    if complement < 0:
+        return 'Undefined'
+
+    if complement == 0:
+        return float('inf')
+
+    if calctype == 'AIC':
+        val = -2 * log(complement, 2) + 2 * num_params
     elif calctype == 'BIC':
-      val = -2  * log(ratio,2) + num_params * log(n,2) 
+        val = -2 * log(complement, 2) + num_params * log(n, 2)
     else:
-      raise ValueError('Undefined calculation type')
-  else: 
-    val = 'Undefined'
+        raise ValueError('Undefined calculation type')
 
-  return val
+    return val
 
 
 def Compute_dissimilarity(original, xai_ratio):

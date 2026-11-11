@@ -15,13 +15,19 @@ import os
 
 datasets_folder = 'datasets_files'
 logs_dir = 'uci_logs'
+models_folder = os.path.join(logs_dir, 'models')
+params_dir = 'optimal_params'
+datasets_folder = logs_dir
 
 info_df = pd.read_csv(
     os.path.join(logs_dir, 'datasets_info.csv'),
     sep=';'
 )
 
-datasets = ['Credit']
+datasets = [
+    'Diabetic', 'Ionosphere', 'spect', 'Kidney', 'Credit',
+    'Climate', 'Adult', 'TruckFailure', 'Spam'
+]
 
 params_dir = 'optimal_params'
 if not os.path.exists(params_dir):
@@ -128,7 +134,7 @@ for ds in datasets:
 
     df = retrieve_artefact(
         logs_dir,
-        'preprocessed_not_discretized_dataset_crx',
+        'preprocessed_not_discretized_dataset_%s' % file_name,
         '.csv',
         ','
     )
@@ -137,7 +143,16 @@ for ds in datasets:
     X = df.drop([target_name], axis=1)
 
     for cls_method in ['logit', 'xgboost', 'rf', 'gbm']:
-        print(cls_method)
+        outfile = os.path.join(
+            params_dir,
+            "optimal_params_%s_%s.pickle" % (cls_method, file_name)
+        )
+
+        if os.path.exists(outfile):
+            print("SKIP:", cls_method, file_name)
+            continue
+
+        print("RUN:", cls_method, file_name)
 
         if cls_method == "logit":
             sscaler = StandardScaler()
@@ -161,11 +176,11 @@ for ds in datasets:
                 % ("iter", "dataset", "cls", "param", "value", "score")
             )
 
-            # The objective function uses X_model for this classifier.
             X_original = X
             X = X_model
 
             try:
+                current_n_iter = 10 if ds == 'TruckFailure' else n_iter
                 best = fmin(
                     create_and_evaluate_model,
                     space,
@@ -178,12 +193,6 @@ for ds in datasets:
 
         best_params = hyperopt.space_eval(space, best)
         print('best params:', best_params)
-
-        outfile = os.path.join(
-            logs_dir,
-            "optimal_params_%s_%s.pickle"
-            % (cls_method, file_name)
-        )
 
         with open(outfile, "wb") as fout:
             pickle.dump(best_params, fout)
