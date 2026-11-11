@@ -1,4 +1,6 @@
 from sklearn.inspection import permutation_importance
+import matplotlib
+matplotlib.use('Agg')
 import shap
 import numpy as np
 import matplotlib.pyplot as plt
@@ -6,52 +8,117 @@ import pandas as pd
 import os
 import pickle
 
+logs_dir = 'uci_logs'
 
 
-def shap_global(file_name,cls, X, ffeatures,cls_method):
-    
-    explainer = shap.Explainer(cls, X)
-    shap_vals = explainer(X)
-    shap_values = explainer.shap_values(X)
-          
-    print('\n type of shap values: {0}'.format(type(shap_values)))
+def shap_global(file_name, cls, X, ffeatures, cls_method):
 
+    # Chuẩn hóa dữ liệu đầu vào cho SHAP
+    if isinstance(X, pd.DataFrame):
+        X_shap = X.apply(pd.to_numeric, errors='raise').astype(np.float64)
+    else:
+        X_shap = pd.DataFrame(
+            np.asarray(X, dtype=np.float64),
+            columns=ffeatures
+        )
 
-    out1 = os.path.join(logs_dir, 'shap_explainer_%s_%s.pickle' %(file_name,cls_method))
+    print("\n========== KIỂM TRA DỮ LIỆU SHAP ==========")
+    print("Kiểu dữ liệu X:", type(X_shap))
+    print("Shape:", X_shap.shape)
+    print("Dtype:", X_shap.dtypes.unique())
+
+    predictions = cls.predict_proba(X_shap)
+    print("Predict_proba shape:", predictions.shape)
+    print("Predict_proba dtype:", predictions.dtype)
+    print("================================================")
+
+    # Tính SHAP
+    if cls_method in ['xgboost', 'logit']:
+        explainer = shap.Explainer(cls.predict_proba, X_shap)
+        shap_result = explainer(X_shap)
+        shap_values = shap_result.values
+
+    else:
+        explainer = shap.TreeExplainer(cls)
+        shap_result = explainer(X_shap)
+        shap_values = shap_result.values
+
+    # Chọn SHAP values của lớp positive (class 1)
+    if shap_values.ndim == 3:
+        shap_values = shap_values[:, :, 1]
+
+    shap_vals = shap.Explanation(
+        values=shap_values,
+        data=X_shap.to_numpy(),
+        feature_names=ffeatures
+    )
+
+    print('\n type of shap values: {}'.format(type(shap_values)))
+
+    # Lưu explainer
+    out1 = os.path.join(
+        logs_dir,
+        'shap_explainer_%s_%s.pickle' % (file_name, cls_method)
+    )
     with open(out1, 'wb') as output:
         pickle.dump(explainer, output)
 
-    shap_csv = os.path.join(logs_dir, 'shap_values_%s_%s.csv' %(file_name,cls_method) )
-    shap_df = pd.DataFrame(shap_values, columns =ffeatures)
-    shap_df.to_csv(shap_csv, sep=';', index=False)
+    # Lưu SHAP values dạng CSV
+    shap_csv = os.path.join(
+        logs_dir,
+        'shap_values_%s_%s.csv' % (file_name, cls_method)
+    )
+    pd.DataFrame(
+        shap_values,
+        columns=ffeatures
+    ).to_csv(shap_csv, sep=';', index=False)
 
-    shap_data = os.path.join(logs_dir, 'shap_values_%s_%s.pickle' %(file_name,cls_method))
+    # Lưu SHAP values dạng pickle
+    shap_data = os.path.join(
+        logs_dir,
+        'shap_values_%s_%s.pickle' % (file_name, cls_method)
+    )
     with open(shap_data, 'wb') as fout:
         pickle.dump(shap_values, fout)
- 
 
+    # Summary plot - beeswarm
     print('summary plot of shap values - normal')
-    # shap.initjs()
-    if shap.__version__ >= str(0.37):
-        shap.plots.beeswarm(shap_vals, show=False)
-    else:
-        shap.summary_plot(shap_values, X, feature_names=ffeatures, max_display=10, show=False)
-    plt.savefig(os.path.join(logs_dir, 'Shap values_normal_%s_%s.png' %(file_name,cls_method)),
-                dpi=300, bbox_inches='tight');
-    plt.clf()
-    plt.close()
-    print('-' * 100)
 
-    print('summary plot of shap values - bar')
-    # shap.initjs()
-    if shap.__version__ >= str(0.37):
-        shap.plots.bar(shap_vals, show=False)
-    else:
-        shap.summary_plot(shap_values, X, feature_names=ffeatures, plot_type='bar', show=False, max_display=10)
+    shap.plots.beeswarm(
+        shap_vals,
+        max_display=10,
+        show=False
+    )
 
     plt.savefig(
-        os.path.join(logs_dir, 'Shap values_bar_%s_%s.png' %(file_name,cls_method)),
-        dpi=300, bbox_inches='tight');
+        os.path.join(
+            logs_dir,
+            'Shap values_normal_%s_%s.png' % (file_name, cls_method)
+        ),
+        dpi=300,
+        bbox_inches='tight'
+    )
+    plt.clf()
+    plt.close()
+
+    # Summary plot - bar
+    print('-' * 100)
+    print('summary plot of shap values - bar')
+
+    shap.plots.bar(
+        shap_vals,
+        max_display=10,
+        show=False
+    )
+
+    plt.savefig(
+        os.path.join(
+            logs_dir,
+            'Shap values_bar_%s_%s.png' % (file_name, cls_method)
+        ),
+        dpi=300,
+        bbox_inches='tight'
+    )
     plt.clf()
     plt.close()
 
@@ -84,7 +151,15 @@ def Permutation_importance_analysis(file_name,cls, ffeatures, x, y, cls_method):
 
 ###############################################################################################################################################
 def explain_predictions(xai_method, file_name, clf, ffeatures, X, y, clf_type):
-  if xai_method == 'perm':
-    Permutation_importance_analysis(file_name,clf, ffeatures, X, y, clf_type)
-  elif xai_method == 'shap':
-    shap_global(file_name,clf, X, ffeatures,clf_type)
+    if xai_method == 'perm':
+        Permutation_importance_analysis(
+            file_name, clf, ffeatures, X, y, clf_type
+        )
+
+    elif xai_method == 'shap':
+        shap_global(
+            file_name, clf, X, ffeatures, clf_type
+        )
+
+    elif xai_method == 'ALE':
+        print("ALE chưa được triển khai trong explain_predictions.")

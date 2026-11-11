@@ -1,3 +1,5 @@
+from fileinput import filename
+
 import pandas as pd
 import os
 from utils.retrieval import retrieve_artefact
@@ -5,6 +7,13 @@ from sklearn.preprocessing import MinMaxScaler, LabelEncoder, KBinsDiscretizer
 from sklearn.model_selection import train_test_split
 from imblearn.over_sampling import RandomOverSampler, SMOTE
 from imblearn.under_sampling import RandomUnderSampler, NearMiss, CondensedNearestNeighbour
+import math
+from collections import Counter
+
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import precision_recall_fscore_support
+
+logs_dir = 'uci_logs'
 
 def check_perf(output_txt, results, minority_class):
   original_recall = results['original'][1][minority_class]
@@ -117,8 +126,18 @@ def rebalance(output_txt, X_train, y_train, X_test, y_test, minority_class):
 def preprocessing(output_txt, ds_name, cols,target_name, filename, file_end, target_encoding= None):
   print(ds_name)
   
-  df = retrieve_artefact(logs_dir, filename, file_end)
+  if ds_name == 'Climate':
+    df = pd.read_csv(
+        os.path.join('datasets_files', filename + file_end),
+        sep=r'\s+',
+        header=0,
+        engine='python'
+    )
+  else:
+    df = retrieve_artefact('datasets_files', filename, file_end)
+
   df.columns = cols
+  
 
   #drop duplicate rows if they exceed 5% of the total df length
   if ((len(df)- len(df.drop_duplicates()))/len(df)) > 0.05 : 
@@ -135,8 +154,9 @@ def preprocessing(output_txt, ds_name, cols,target_name, filename, file_end, tar
     df[target_name].replace(target_encoding, inplace=True)
 
   df.convert_dtypes()
-  if ds_name in ["TruckFailure"]:   
-      df.replace('na','-1', inplace=True)
+  if ds_name == "TruckFailure":
+    df.replace('na', -1, inplace=True)
+    df.fillna(-1, inplace=True)
       
   df.replace('?', -1, inplace=True)
   df.convert_dtypes() 
@@ -151,7 +171,15 @@ def preprocessing(output_txt, ds_name, cols,target_name, filename, file_end, tar
   if ds_name in ["TruckFailure", "Ionosphere"]: 
     df = df.apply(pd.to_numeric)
 
-  objcols = list(df.select_dtypes(exclude=['float64', 'float32', 'int64','int32', 'int', 'float']).columns)  
+  objcols = list(df.select_dtypes(
+    exclude=['float64','float32','int64','int32','int','float']
+  ).columns)
+
+  objcols = [x for x in objcols if x != target_name]
+
+  lbl_enc_cols = [x for x in objcols if df[x].nunique() > 5]
+  one_hot_cols = list(set(objcols) - set(lbl_enc_cols))
+ 
   for objc in objcols:
     df[objc] = df[objc].astype(str)
   
@@ -187,9 +215,23 @@ def preprocessing(output_txt, ds_name, cols,target_name, filename, file_end, tar
       df[cc] = df[cc].astype('category').cat.codes
     df = pd.get_dummies(df, columns=one_hot_cols, drop_first=True)
 
+  
   df = df.apply(pd.to_numeric)
-      
-    
+
+  # Save the preprocessed dataset
+  output_dir = "uci_logs"
+  os.makedirs(output_dir, exist_ok=True)
+
+  output_file = os.path.join(
+      output_dir,
+      f"preprocessed_not_discretized_dataset_{filename}.csv"
+  )
+
+  df.to_csv(output_file, index=False)
+  print(f"Saved preprocessed dataset: {output_file}")
+  print("Climate columns:", df.columns.tolist())
+  print("Target name:", target_name)
+
   y = df[target_name]
   X = df.drop([target_name], axis=1)
 
@@ -228,21 +270,26 @@ def scale_update(old_dict):
 
 
 def Discretize(df, filename):
-    for i in df.columns[:-1]:
-        if (len(df[i].value_counts()) >= 10):
+    df = df.copy()
+
+    for col in df.columns[:-1]:
+        if len(df[col].value_counts()) >= 10:
             bins = 4
         else:
-            bins = len(df[i].value_counts())
-        df[i] = pd.cut(df[i], bins=bins)  # discretize
-        print(df.dtypes)
-        # transform the resulting discretized
-        objcols = list(df.select_dtypes(include=['category']).columns)
-        lbl = LabelEncoder()
-        for i in objcols:
-            df[i] = lbl.fit_transform(df[i])
-    print(len(list(df.select_dtypes(include=['category']).columns)))
-    return df.to_csv('discretized_dataset_%s.csv' % (filename), sep=',', index=False, header=False)
+            bins = len(df[col].value_counts())
 
+        if bins >= 2:
+            df[col] = pd.cut(df[col], bins=bins)
+            df[col] = LabelEncoder().fit_transform(df[col].astype(str))
+
+    os.makedirs('uci_logs', exist_ok=True)
+
+    return df.to_csv(
+        os.path.join('uci_logs', 'discretized_dataset_%s.csv' % filename),
+        sep=',',
+        index=False,
+        header=False
+    )
 
 # a function to concatenate all the .dat vehicles_files
 def conc_dfs(datasets_folder,Vehicle_files, Vehicle_header):

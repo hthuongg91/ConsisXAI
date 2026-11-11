@@ -42,7 +42,7 @@ def compute_core(reds):
    return list(reduce(set.intersection, (set(val) for val in reds.values())))
 #####################################################################################################################################
 def compute_reducts_core(file_name,ds):
-      params_df = retrieve_artefact(logs_dir, 'features_scores_%s' %(file_name), '.csv', ';')
+      params_df = retrieve_artefact('uci_logs', 'features_scores_%s' % ds, '.csv', ';')
       Threshold_min = ast.literal_eval(params_df.iloc[-2,1])
       Threshold_max = ast.literal_eval(params_df.iloc[-1,1])
          
