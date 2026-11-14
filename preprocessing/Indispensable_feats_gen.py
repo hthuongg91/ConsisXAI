@@ -239,10 +239,18 @@ def compute_features_importances(ds, X_train, y_train, ffeatures,\
       #the threshold in the mean of means
       Threshold_min = results_df_mean.min()
       Threshold_max = results_df_mean.max()   
-      results_df.to_csv(os.path.join(logs_dir, 'features_scores_%s.csv' %(file_name)), sep=';')
-      with open(os.path.join(logs_dir, 'features_scores_%s.csv' %(file_name)), 'a') as fout:
+      results_df.to_csv(
+        os.path.join('uci_logs', 'features_scores_%s.csv' % ds),
+        sep=';',
+        index=False
+      )
+
+      with open(
+        os.path.join('uci_logs', 'features_scores_%s.csv' % ds),
+        'a',
+        encoding='utf-8'
+      ) as fout:
           fout.write('\n')
-          fout.write('Threshold_min;%s\n' % (Threshold_min))
-          fout.write('Threshold_max;%s\n' % (Threshold_max))
-         
+          fout.write('Threshold_min;%s\n' % Threshold_min)
+          fout.write('Threshold_max;%s\n' % Threshold_max)
     

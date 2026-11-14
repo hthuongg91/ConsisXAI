@@ -1,0 +1,10 @@
+pandas==2.3.3
+numpy==2.2.6
+scikit-learn==1.7.2
+scipy==1.15.3
+xgboost==3.2.0
+shap==0.49.1
+matplotlib==3.10.9
+hyperopt==0.3.0
+imbalanced-learn==0.14.2
+skrebate==0.62
