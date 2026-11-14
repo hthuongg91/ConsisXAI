@@ -42,7 +42,7 @@ def compute_core(reds):
    return list(reduce(set.intersection, (set(val) for val in reds.values())))
 #####################################################################################################################################
 def compute_reducts_core(file_name,ds):
-      params_df = retrieve_artefact(logs_dir, 'features_scores_%s' %(file_name), '.csv', ';')
+      params_df = retrieve_artefact('uci_logs', 'features_scores_%s' % file_name, '.csv', ';')
       Threshold_min = ast.literal_eval(params_df.iloc[-2,1])
       Threshold_max = ast.literal_eval(params_df.iloc[-1,1])
          
@@ -77,17 +77,95 @@ def compute_reducts_core(file_name,ds):
 
 
 #compute Reduct/Core ratios
-def ComputeRatio(selectedsetByXYZ,originalset, flag=None):
-  selected_feats = selectedsetByXYZ.keys() 
-  sum_numenator_set = 0
-  original_set_sum = len(originalset) #each item in the reductset is assigned '1'
-  numenator_set = set(originalset).intersection(set(selected_feats))
-  intesection_vol = len(numenator_set)
-  for x in numenator_set:
-    sum_numenator_set += selectedsetByXYZ[x] 
-  if flag == 'regular':
-    return sum_numenator_set/original_set_sum , sum_numenator_set, intesection_vol
-  elif flag == 'experimental':
-    return intesection_vol/original_set_sum, intesection_vol
-  else:
-    return
+
+def compute_reducts_core(file_name, ds):
+    logs_dir = 'uci_logs'
+
+    # Feature Scores được lưu theo tên dataset (ds),
+    # không phải tên file gốc (file_name).
+    params_df = retrieve_artefact(
+        logs_dir,
+        'features_scores_%s' % ds,
+        '.csv',
+        ';'
+    )
+
+    Threshold_min = ast.literal_eval(str(params_df.iloc[-2, 1]))
+    Threshold_max = ast.literal_eval(str(params_df.iloc[-1, 1]))
+
+    params_df = params_df.drop(
+        params_df.index[params_df['feature'] == 'mean_threshold']
+    )
+
+    Threshold = Threshold_min
+    reds, reds_weights = compute_reds(params_df, Threshold)
+    core = compute_core(reds)
+
+    i, length = 0, 1
+
+    while (len(core) == 0) and (i < length):
+        Threshold, length = get_threshold(
+            Threshold_min, Threshold_max
+        )
+        reds, reds_weights = compute_reds(params_df, Threshold)
+        core = compute_core(reds)
+        i += 1
+
+    print('Reducts:', reds)
+    print('Core:', core)
+
+    # Tính trọng số trung bình của từng feature trong core.
+    core_feat_weights = []
+
+    for x in core:
+        red_feat_weights = []
+
+        for key, val in reds.items():
+            idx = val.index(x)
+            red_feat_weights.append(reds_weights[key][idx])
+
+        core_feat_weights.append(
+            sum(red_feat_weights) / len(red_feat_weights)
+        )
+
+    # Giữ file JSON theo file_name vì main.py đang đọc theo tên này.
+    with open(
+        os.path.join(logs_dir, 'reds_%s_python.json' % file_name),
+        'w',
+        encoding='utf-8'
+    ) as outfile:
+        json.dump(reds, outfile)
+
+    with open(
+        os.path.join(logs_dir, 'core_%s_python.json' % file_name),
+        'w',
+        encoding='utf-8'
+    ) as outfile:
+        json.dump(core, outfile)
+# Compute Reduct/Core ratios
+def ComputeRatio(selectedsetByXYZ, originalset, flag=None):
+    selected_feats = selectedsetByXYZ.keys()
+    sum_numenator_set = 0
+    original_set_sum = len(originalset)
+
+    numenator_set = set(originalset).intersection(set(selected_feats))
+    intesection_vol = len(numenator_set)
+
+    for x in numenator_set:
+        sum_numenator_set += selectedsetByXYZ[x]
+
+    if flag == 'regular':
+        return (
+            sum_numenator_set / original_set_sum,
+            sum_numenator_set,
+            intesection_vol
+        )
+
+    elif flag == 'experimental':
+        return (
+            intesection_vol / original_set_sum,
+            intesection_vol
+        )
+
+    else:
+        return None

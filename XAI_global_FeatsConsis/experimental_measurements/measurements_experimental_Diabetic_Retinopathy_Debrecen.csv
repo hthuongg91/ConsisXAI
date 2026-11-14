@@ -1,0 +1,7 @@
+Measurement;Diabetic_xgboost_shap;Diabetic_xgboost_perm;Diabetic_logit_shap;Diabetic_logit_perm;Diabetic_rf_shap;Diabetic_rf_perm;Diabetic_gbm_shap;Diabetic_gbm_perm
+reduct_ratio;0.4;0.4;1.0;1.0;0.4;0.2;0.4;0.4
+core_ratio;1.0;1.0;1.0;1.0;1.0;1.0;1.0;1.0
+AIC_reduct;7.473931188332412;7.473931188332412;inf;inf;7.473931188332412;8.643856189774725;7.473931188332412;7.473931188332412
+AIC_core;inf;inf;inf;inf;inf;inf;inf;inf
+BIC_reduct;31.010401341165537;31.010401341165537;inf;inf;31.010401341165537;40.025816393552226;31.010401341165537;31.010401341165537
+BIC_core;inf;inf;inf;inf;inf;inf;inf;inf

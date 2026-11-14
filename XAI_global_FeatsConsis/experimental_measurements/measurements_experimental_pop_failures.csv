@@ -1,0 +1,7 @@
+Measurement;Climate_xgboost_shap;Climate_xgboost_perm;Climate_logit_shap;Climate_logit_perm;Climate_rf_shap;Climate_rf_perm;Climate_gbm_shap;Climate_gbm_perm
+reduct_ratio;1.0;1.0;1.0;1.0;1.0;1.0;1.0;1.0
+core_ratio;1.0;1.0;1.0;1.0;1.0;1.0;1.0;1.0
+AIC_reduct;inf;inf;inf;inf;inf;inf;inf;inf
+AIC_core;inf;inf;inf;inf;inf;inf;inf;inf
+BIC_reduct;inf;inf;inf;inf;inf;inf;inf;inf
+BIC_core;inf;inf;inf;inf;inf;inf;inf;inf

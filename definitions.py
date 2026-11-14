@@ -5,7 +5,10 @@ import os
 from preprocessing.datasets_preprocessing import conc_dfs, preprocessing
 from sklearn.preprocessing import KBinsDiscretizer
 
-datasets= ['TruckFailure','Bank','Kidney','Credit','Heart','Spam','Climate', 'Adult','BreastC' ,'Diabetic','Ionosphere','spect']
+datasets = [
+    'Bank', 'Kidney', 'Credit', 'Heart', 'Spam',
+    'Climate', 'BreastC', 'Diabetic', 'Ionosphere', 'spect'
+]
 cols ={ 'BreastC':[ 'codeNum','ClumpThickness','UniCellSize','UniCellShape',\
                   'MarginalAd','SingleEpithelialCellSize','BareNuclei',\
                   'BlandChromatin','NormalN','Mitoses', 'class'],\
@@ -25,7 +28,6 @@ cols ={ 'BreastC':[ 'codeNum','ClumpThickness','UniCellSize','UniCellShape',\
        
        'Spam':['Feat'+str(i) for i in range(1,58)]+['class'],\
        
-       'TruckFailure':['class']+['Feat'+str(i) for i in range(1,171)],\
 
        'Climate':['Study', 'Run', 'vconst_corr', 'vconst_2', 'vconst_3', 'vconst_4',\
        'vconst_5', 'vconst_7', 'ah_corr', 'ah_bolus', 'slm_corr',\
@@ -33,9 +35,6 @@ cols ={ 'BreastC':[ 'codeNum','ClumpThickness','UniCellSize','UniCellShape',\
        'convect_corr', 'bckgrnd_vdc1', 'bckgrnd_vdc_ban', 'bckgrnd_vdc_eq',\
        'bckgrnd_vdc_psim', 'Prandtl', 'outcome'],
        
-       'Adult': ['age', 'workclass', 'fnlwgt','education','education-num','marital-status',\
-        'occupation','relationship','race','sex','capital-gain','capital-loss',\
-        'hours-per-week','native-country','salary'],\
        
        'Diabetic':['Feat'+str(i) for i in range(1,20)]+['class'],\
        
@@ -44,18 +43,18 @@ cols ={ 'BreastC':[ 'codeNum','ClumpThickness','UniCellSize','UniCellShape',\
        'spect':['F%sR' %(str(i)) for i in range(1,23)]+['class']}
 
 targets_names = {'Bank':'y', 'Kidney':'class', 'Credit':'+',\
-                 'Heart':'num', 'Spam':'class', 'TruckFailure':'class',\
-                 'Climate':'outcome', 'Adult':'salary', 'BreastC':'class',\
+                 'Heart':'num', 'Spam':'class', \
+                 'Climate':'outcome', 'BreastC':'class',\
                  'Diabetic':'class', 'Ionosphere':'class', 'spect':'class'}
 
 files_names = {'Bank':'bank-full', 'Kidney':'chronic_kidney_disease_full', 'Credit':'crx',\
                'Heart':'processed.cleveland','Spam':'spambase',\
-               'TruckFailure':'TruckFailures', 'Climate':'pop_failures', 'Adult':'adult',\
+               'Climate':'pop_failures',\
                'BreastC':'breast-cancer-wisconsin', 'Ionosphere':'ionosphere',\
                'Diabetic':'Diabetic_Retinopathy_Debrecen', 'spect':'SPECT'}
 
 files_ends = {'Bank':'.csv', 'Kidney':'.csv', 'Credit':'.data', 'Heart':'.data',\
-             'Spam':'.data', 'TruckFailure':'.csv', 'Climate':'.dat', 'Adult':'.csv',\
+             'Spam':'.data', 'Climate':'.dat',\
               'BreastC':'.data', 'Diabetic':'.arff', 'Ionosphere':'.data', 'spect':'.data'}
 
 target_encoding = {'Heart':{0:0, 1:1, 2:1, 3:1, 4:1}, 'BreastC':{2:0, 4:1}}
@@ -94,4 +93,32 @@ datasets_info.to_csv(
 
 output_txt = os.path.join(logs_dir, 'output.txt')
 
+
 ##########################################################################################################################################
+datasets_folder = 'datasets_files'
+
+for ds in datasets:
+    filename = files_names[ds]
+    file_end = files_ends[ds]
+
+    input_file = os.path.join(datasets_folder, filename + file_end)
+
+    if not os.path.exists(input_file):
+        print(f'[SKIP] {ds}: Không tìm thấy {input_file}')
+        continue
+
+    print(f'[RUN] Preprocessing {ds}...')
+
+    encoding = target_encoding.get(ds, None)
+
+    preprocessing(
+        output_txt,
+        ds,
+        cols[ds],
+        targets_names[ds],
+        filename,
+        file_end,
+        encoding
+    )
+
+    print(f'[DONE] {ds}')
