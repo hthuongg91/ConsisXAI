@@ -1,5 +1,0 @@
-variant,th,K,shortest,logit_SHAP_inter,logit_SHAP_ratio,logit_SHAP_AIC,logit_Perm_inter,logit_Perm_ratio,logit_Perm_AIC,xgboost_SHAP_inter,xgboost_SHAP_ratio,xgboost_SHAP_AIC,xgboost_Perm_inter,xgboost_Perm_ratio,xgboost_Perm_AIC
-"nguong cua lan chay da luu (~0,015)",0.0155,9,embedded_gbm,4,0.1556,10.488,5,0.1162,8.356,8,0.1767,2.561,8,0.1695,2.536
-min(trung binh) [Thuat toan 3.1],0.07656609245874202,3,IV,1,0.3333,5.17,1,0.3333,5.17,2,0.3385,3.192,1,0.3333,5.17
-trung vi cac trung binh,0.09967933680851548,3,embedded_xgboost,1,0.3333,5.17,1,0.3333,5.17,1,0.3333,5.17,1,0.3333,5.17
-trung binh cac trung binh,0.16638203260754642,1,embedded_xgboost,1,0.0,0.0,1,0.0,0.0,1,0.0,0.0,1,0.0,0.0

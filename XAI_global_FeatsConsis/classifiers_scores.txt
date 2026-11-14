@@ -1,0 +1,950 @@
+
+Diabetic
+Training shape: (920, 19)
+Testing shape: (231, 19)
+Model: logit
+Parameters: {'C': 36.93265166177999}
+Fallback parameters: False
+AUC: 0.76122573
+F1: 0.75536481
+Confusion matrix:
+[[86 17]
+ [40 88]]
+----------------------------------------
+Model: xgboost
+Parameters: {'colsample_bytree': 0.8248482320289341, 'learning_rate': 0.14203360120307623, 'max_depth': 13, 'min_child_weight': 4, 'subsample': 0.9104129951455525}
+Fallback parameters: False
+AUC: 0.69125455
+F1: 0.70247934
+Confusion matrix:
+[[74 29]
+ [43 85]]
+----------------------------------------
+Model: rf
+Parameters: {'max_features': 0.28410303032796097}
+Fallback parameters: False
+AUC: 0.71753641
+F1: 0.72727273
+Confusion matrix:
+[[77 26]
+ [40 88]]
+----------------------------------------
+Model: gbm
+Parameters: {'learning_rate': 0.9309427160388803}
+Fallback parameters: False
+AUC: 0.70012894
+F1: 0.72509960
+Confusion matrix:
+[[71 32]
+ [37 91]]
+----------------------------------------
+
+Ionosphere
+Training shape: (280, 34)
+Testing shape: (71, 34)
+Model: logit
+Parameters: {'C': 3.1511682439757664}
+Fallback parameters: False
+AUC: 0.82142857
+F1: 0.89583333
+Confusion matrix:
+[[18 10]
+ [ 0 43]]
+----------------------------------------
+Model: xgboost
+Parameters: {'colsample_bytree': 0.7841603122917857, 'learning_rate': 0.05359191292597354, 'max_depth': 18, 'min_child_weight': 1, 'subsample': 0.9398111260528605}
+Fallback parameters: False
+AUC: 0.92857143
+F1: 0.95555556
+Confusion matrix:
+[[24  4]
+ [ 0 43]]
+----------------------------------------
+Model: rf
+Parameters: {'max_features': 0.36924614159936253}
+Fallback parameters: False
+AUC: 0.91694352
+F1: 0.94382022
+Confusion matrix:
+[[24  4]
+ [ 1 42]]
+----------------------------------------
+Model: gbm
+Parameters: {'learning_rate': 0.9014381490949197}
+Fallback parameters: False
+AUC: 0.91694352
+F1: 0.94382022
+Confusion matrix:
+[[24  4]
+ [ 1 42]]
+----------------------------------------
+
+spect
+Training shape: (182, 22)
+Testing shape: (46, 22)
+Model: logit
+Parameters: {'C': 0.008404953017023617}
+Fallback parameters: False
+AUC: 0.71041667
+F1: 0.62857143
+Confusion matrix:
+[[22  8]
+ [ 5 11]]
+----------------------------------------
+Model: xgboost
+Parameters: {'colsample_bytree': 0.9949054597002309, 'learning_rate': 0.002365189262195023, 'max_depth': 19, 'min_child_weight': 4, 'subsample': 0.5742209564146421}
+Fallback parameters: False
+AUC: 0.69583333
+F1: 0.60606061
+Confusion matrix:
+[[23  7]
+ [ 6 10]]
+----------------------------------------
+Model: rf
+Parameters: {'max_features': 0.2639363986751836}
+Fallback parameters: False
+AUC: 0.71041667
+F1: 0.62857143
+Confusion matrix:
+[[22  8]
+ [ 5 11]]
+----------------------------------------
+Model: gbm
+Parameters: {'learning_rate': 0.003551757896533841}
+Fallback parameters: False
+AUC: 0.64791667
+F1: 0.54545455
+Confusion matrix:
+[[22  8]
+ [ 7  9]]
+----------------------------------------
+
+Kidney
+Training shape: (320, 34)
+Testing shape: (80, 34)
+Model: logit
+Parameters: {'C': 7.684871391021196}
+Fallback parameters: False
+AUC: 1.00000000
+F1: 1.00000000
+Confusion matrix:
+[[52  0]
+ [ 0 28]]
+----------------------------------------
+Model: xgboost
+Parameters: {'colsample_bytree': 0.7674277304679169, 'learning_rate': 0.8387499596217333, 'max_depth': 21, 'min_child_weight': 1, 'subsample': 0.6368816875173573}
+Fallback parameters: False
+AUC: 0.99038462
+F1: 0.98245614
+Confusion matrix:
+[[51  1]
+ [ 0 28]]
+----------------------------------------
+Model: rf
+Parameters: {'max_features': 0.07292356391786636}
+Fallback parameters: False
+AUC: 1.00000000
+F1: 1.00000000
+Confusion matrix:
+[[52  0]
+ [ 0 28]]
+----------------------------------------
+Model: gbm
+Parameters: {'learning_rate': 0.20152057295510994}
+Fallback parameters: False
+AUC: 0.97252747
+F1: 0.96428571
+Confusion matrix:
+[[51  1]
+ [ 1 27]]
+----------------------------------------
+
+Credit
+Training shape: (552, 21)
+Testing shape: (138, 21)
+Model: logit
+Parameters: {'C': 8.825654195980245}
+Fallback parameters: False
+AUC: 0.84054622
+F1: 0.83823529
+Confusion matrix:
+[[59 11]
+ [11 57]]
+----------------------------------------
+Model: xgboost
+Parameters: {'colsample_bytree': 0.8192078435622931, 'learning_rate': 0.04082076637969034, 'max_depth': 30, 'min_child_weight': 4, 'subsample': 0.5630989325729032}
+Fallback parameters: False
+AUC: 0.83403361
+F1: 0.83916084
+Confusion matrix:
+[[55 15]
+ [ 8 60]]
+----------------------------------------
+Model: rf
+Parameters: {'max_features': 0.25291889780471943}
+Fallback parameters: False
+AUC: 0.86995798
+F1: 0.87142857
+Confusion matrix:
+[[59 11]
+ [ 7 61]]
+----------------------------------------
+Model: gbm
+Parameters: {'learning_rate': 0.6481066276132068}
+Fallback parameters: False
+AUC: 0.82752101
+F1: 0.84000000
+Confusion matrix:
+[[51 19]
+ [ 5 63]]
+----------------------------------------
+
+Climate
+Training shape: (432, 20)
+Testing shape: (108, 20)
+Model: logit
+Parameters: {'C': 0.6126816937006209}
+Fallback parameters: False
+AUC: 0.83979592
+F1: 0.97461929
+Confusion matrix:
+[[ 7  3]
+ [ 2 96]]
+----------------------------------------
+Model: xgboost
+Parameters: {'colsample_bytree': 0.9099670479973356, 'learning_rate': 0.07544632925201991, 'max_depth': 13, 'min_child_weight': 1, 'subsample': 0.8165929814577998}
+Fallback parameters: False
+AUC: 0.75000000
+F1: 0.97512438
+Confusion matrix:
+[[ 5  5]
+ [ 0 98]]
+----------------------------------------
+Model: rf
+Parameters: {'max_features': 0.5549738215312886}
+Fallback parameters: False
+AUC: 0.65000000
+F1: 0.96551724
+Confusion matrix:
+[[ 3  7]
+ [ 0 98]]
+----------------------------------------
+Model: gbm
+Parameters: {'learning_rate': 0.6712852810423003}
+Fallback parameters: False
+AUC: 0.70000000
+F1: 0.97029703
+Confusion matrix:
+[[ 4  6]
+ [ 0 98]]
+----------------------------------------
+
+Spam
+Training shape: (3368, 57)
+Testing shape: (842, 57)
+Model: logit
+Parameters: {'C': 1.5951395685820593}
+Fallback parameters: False
+AUC: 0.91387394
+F1: 0.90257880
+Confusion matrix:
+[[459  24]
+ [ 44 315]]
+----------------------------------------
+Model: xgboost
+Parameters: {'colsample_bytree': 0.5797533950807812, 'learning_rate': 0.010633974832451654, 'max_depth': 29, 'min_child_weight': 2, 'subsample': 0.7744504284975717}
+Fallback parameters: False
+AUC: 0.94858043
+F1: 0.94301994
+Confusion matrix:
+[[471  12]
+ [ 28 331]]
+----------------------------------------
+Model: rf
+Parameters: {'max_features': 0.006286062615862398}
+Fallback parameters: False
+AUC: 0.94718767
+F1: 0.94151213
+Confusion matrix:
+[[471  12]
+ [ 29 330]]
+----------------------------------------
+Model: gbm
+Parameters: {'learning_rate': 0.1474642828160217}
+Fallback parameters: False
+AUC: 0.94618996
+F1: 0.93935120
+Confusion matrix:
+[[466  17]
+ [ 26 333]]
+----------------------------------------
+
+Diabetic
+Training shape: (920, 19)
+Testing shape: (231, 19)
+Model: logit
+Parameters: {'C': 36.93265166177999}
+Fallback parameters: False
+AUC: 0.76122573
+F1: 0.75536481
+Confusion matrix:
+[[86 17]
+ [40 88]]
+----------------------------------------
+Model: xgboost
+Parameters: {'colsample_bytree': 0.8248482320289341, 'learning_rate': 0.14203360120307623, 'max_depth': 13, 'min_child_weight': 4, 'subsample': 0.9104129951455525}
+Fallback parameters: False
+AUC: 0.69125455
+F1: 0.70247934
+Confusion matrix:
+[[74 29]
+ [43 85]]
+----------------------------------------
+Model: rf
+Parameters: {'max_features': 0.28410303032796097}
+Fallback parameters: False
+AUC: 0.71753641
+F1: 0.72727273
+Confusion matrix:
+[[77 26]
+ [40 88]]
+----------------------------------------
+Model: gbm
+Parameters: {'learning_rate': 0.9309427160388803}
+Fallback parameters: False
+AUC: 0.70012894
+F1: 0.72509960
+Confusion matrix:
+[[71 32]
+ [37 91]]
+----------------------------------------
+
+Ionosphere
+Training shape: (280, 34)
+Testing shape: (71, 34)
+Model: logit
+Parameters: {'C': 3.1511682439757664}
+Fallback parameters: False
+AUC: 0.82142857
+F1: 0.89583333
+Confusion matrix:
+[[18 10]
+ [ 0 43]]
+----------------------------------------
+Model: xgboost
+Parameters: {'colsample_bytree': 0.7841603122917857, 'learning_rate': 0.05359191292597354, 'max_depth': 18, 'min_child_weight': 1, 'subsample': 0.9398111260528605}
+Fallback parameters: False
+AUC: 0.92857143
+F1: 0.95555556
+Confusion matrix:
+[[24  4]
+ [ 0 43]]
+----------------------------------------
+Model: rf
+Parameters: {'max_features': 0.36924614159936253}
+Fallback parameters: False
+AUC: 0.91694352
+F1: 0.94382022
+Confusion matrix:
+[[24  4]
+ [ 1 42]]
+----------------------------------------
+Model: gbm
+Parameters: {'learning_rate': 0.9014381490949197}
+Fallback parameters: False
+AUC: 0.91694352
+F1: 0.94382022
+Confusion matrix:
+[[24  4]
+ [ 1 42]]
+----------------------------------------
+
+spect
+Training shape: (182, 22)
+Testing shape: (46, 22)
+Model: logit
+Parameters: {'C': 0.008404953017023617}
+Fallback parameters: False
+AUC: 0.71041667
+F1: 0.62857143
+Confusion matrix:
+[[22  8]
+ [ 5 11]]
+----------------------------------------
+Model: xgboost
+Parameters: {'colsample_bytree': 0.9949054597002309, 'learning_rate': 0.002365189262195023, 'max_depth': 19, 'min_child_weight': 4, 'subsample': 0.5742209564146421}
+Fallback parameters: False
+AUC: 0.69583333
+F1: 0.60606061
+Confusion matrix:
+[[23  7]
+ [ 6 10]]
+----------------------------------------
+Model: rf
+Parameters: {'max_features': 0.2639363986751836}
+Fallback parameters: False
+AUC: 0.71041667
+F1: 0.62857143
+Confusion matrix:
+[[22  8]
+ [ 5 11]]
+----------------------------------------
+Model: gbm
+Parameters: {'learning_rate': 0.003551757896533841}
+Fallback parameters: False
+AUC: 0.64791667
+F1: 0.54545455
+Confusion matrix:
+[[22  8]
+ [ 7  9]]
+----------------------------------------
+
+Kidney
+Training shape: (320, 34)
+Testing shape: (80, 34)
+
+Diabetic
+Training shape: (920, 19)
+Testing shape: (231, 19)
+Model: logit
+Parameters: {'C': 36.93265166177999}
+Fallback parameters: False
+AUC: 0.76122573
+F1: 0.75536481
+Confusion matrix:
+[[86 17]
+ [40 88]]
+----------------------------------------
+Model: xgboost
+Parameters: {'colsample_bytree': 0.8248482320289341, 'learning_rate': 0.14203360120307623, 'max_depth': 13, 'min_child_weight': 4, 'subsample': 0.9104129951455525}
+Fallback parameters: False
+AUC: 0.69125455
+F1: 0.70247934
+Confusion matrix:
+[[74 29]
+ [43 85]]
+----------------------------------------
+Model: rf
+Parameters: {'max_features': 0.28410303032796097}
+Fallback parameters: False
+AUC: 0.71753641
+F1: 0.72727273
+Confusion matrix:
+[[77 26]
+ [40 88]]
+----------------------------------------
+Model: gbm
+Parameters: {'learning_rate': 0.9309427160388803}
+Fallback parameters: False
+AUC: 0.70012894
+F1: 0.72509960
+Confusion matrix:
+[[71 32]
+ [37 91]]
+----------------------------------------
+
+Ionosphere
+Training shape: (280, 34)
+Testing shape: (71, 34)
+Model: logit
+Parameters: {'C': 3.1511682439757664}
+Fallback parameters: False
+AUC: 0.82142857
+F1: 0.89583333
+Confusion matrix:
+[[18 10]
+ [ 0 43]]
+----------------------------------------
+Model: xgboost
+Parameters: {'colsample_bytree': 0.7841603122917857, 'learning_rate': 0.05359191292597354, 'max_depth': 18, 'min_child_weight': 1, 'subsample': 0.9398111260528605}
+Fallback parameters: False
+AUC: 0.92857143
+F1: 0.95555556
+Confusion matrix:
+[[24  4]
+ [ 0 43]]
+----------------------------------------
+Model: rf
+Parameters: {'max_features': 0.36924614159936253}
+Fallback parameters: False
+AUC: 0.91694352
+F1: 0.94382022
+Confusion matrix:
+[[24  4]
+ [ 1 42]]
+----------------------------------------
+Model: gbm
+Parameters: {'learning_rate': 0.9014381490949197}
+Fallback parameters: False
+AUC: 0.91694352
+F1: 0.94382022
+Confusion matrix:
+[[24  4]
+ [ 1 42]]
+----------------------------------------
+
+spect
+Training shape: (182, 22)
+Testing shape: (46, 22)
+Model: logit
+Parameters: {'C': 0.008404953017023617}
+Fallback parameters: False
+AUC: 0.71041667
+F1: 0.62857143
+Confusion matrix:
+[[22  8]
+ [ 5 11]]
+----------------------------------------
+Model: xgboost
+Parameters: {'colsample_bytree': 0.9949054597002309, 'learning_rate': 0.002365189262195023, 'max_depth': 19, 'min_child_weight': 4, 'subsample': 0.5742209564146421}
+Fallback parameters: False
+AUC: 0.69583333
+F1: 0.60606061
+Confusion matrix:
+[[23  7]
+ [ 6 10]]
+----------------------------------------
+Model: rf
+Parameters: {'max_features': 0.2639363986751836}
+Fallback parameters: False
+AUC: 0.71041667
+F1: 0.62857143
+Confusion matrix:
+[[22  8]
+ [ 5 11]]
+----------------------------------------
+Model: gbm
+Parameters: {'learning_rate': 0.003551757896533841}
+Fallback parameters: False
+AUC: 0.64791667
+F1: 0.54545455
+Confusion matrix:
+[[22  8]
+ [ 7  9]]
+----------------------------------------
+
+Kidney
+Training shape: (320, 34)
+Testing shape: (80, 34)
+Model: logit
+Parameters: {'C': 7.684871391021196}
+Fallback parameters: False
+AUC: 1.00000000
+F1: 1.00000000
+Confusion matrix:
+[[52  0]
+ [ 0 28]]
+----------------------------------------
+
+Diabetic
+Training shape: (920, 19)
+Testing shape: (231, 19)
+Model: logit
+Parameters: {'C': 36.93265166177999}
+Fallback parameters: False
+AUC: 0.76122573
+F1: 0.75536481
+Confusion matrix:
+[[86 17]
+ [40 88]]
+----------------------------------------
+Model: xgboost
+Parameters: {'colsample_bytree': 0.8248482320289341, 'learning_rate': 0.14203360120307623, 'max_depth': 13, 'min_child_weight': 4, 'subsample': 0.9104129951455525}
+Fallback parameters: False
+AUC: 0.69125455
+F1: 0.70247934
+Confusion matrix:
+[[74 29]
+ [43 85]]
+----------------------------------------
+Model: rf
+Parameters: {'max_features': 0.28410303032796097}
+Fallback parameters: False
+AUC: 0.71753641
+F1: 0.72727273
+Confusion matrix:
+[[77 26]
+ [40 88]]
+----------------------------------------
+Model: gbm
+Parameters: {'learning_rate': 0.9309427160388803}
+Fallback parameters: False
+AUC: 0.70012894
+F1: 0.72509960
+Confusion matrix:
+[[71 32]
+ [37 91]]
+----------------------------------------
+
+Ionosphere
+Training shape: (280, 34)
+Testing shape: (71, 34)
+Model: logit
+Parameters: {'C': 3.1511682439757664}
+Fallback parameters: False
+AUC: 0.82142857
+F1: 0.89583333
+Confusion matrix:
+[[18 10]
+ [ 0 43]]
+----------------------------------------
+Model: xgboost
+Parameters: {'colsample_bytree': 0.7841603122917857, 'learning_rate': 0.05359191292597354, 'max_depth': 18, 'min_child_weight': 1, 'subsample': 0.9398111260528605}
+Fallback parameters: False
+AUC: 0.92857143
+F1: 0.95555556
+Confusion matrix:
+[[24  4]
+ [ 0 43]]
+----------------------------------------
+Model: rf
+Parameters: {'max_features': 0.36924614159936253}
+Fallback parameters: False
+AUC: 0.91694352
+F1: 0.94382022
+Confusion matrix:
+[[24  4]
+ [ 1 42]]
+----------------------------------------
+Model: gbm
+Parameters: {'learning_rate': 0.9014381490949197}
+Fallback parameters: False
+AUC: 0.91694352
+F1: 0.94382022
+Confusion matrix:
+[[24  4]
+ [ 1 42]]
+----------------------------------------
+
+spect
+Training shape: (182, 22)
+Testing shape: (46, 22)
+Model: logit
+Parameters: {'C': 0.008404953017023617}
+Fallback parameters: False
+AUC: 0.71041667
+F1: 0.62857143
+Confusion matrix:
+[[22  8]
+ [ 5 11]]
+----------------------------------------
+Model: xgboost
+Parameters: {'colsample_bytree': 0.9949054597002309, 'learning_rate': 0.002365189262195023, 'max_depth': 19, 'min_child_weight': 4, 'subsample': 0.5742209564146421}
+Fallback parameters: False
+AUC: 0.69583333
+F1: 0.60606061
+Confusion matrix:
+[[23  7]
+ [ 6 10]]
+----------------------------------------
+Model: rf
+Parameters: {'max_features': 0.2639363986751836}
+Fallback parameters: False
+AUC: 0.71041667
+F1: 0.62857143
+Confusion matrix:
+[[22  8]
+ [ 5 11]]
+----------------------------------------
+Model: gbm
+Parameters: {'learning_rate': 0.003551757896533841}
+Fallback parameters: False
+AUC: 0.64791667
+F1: 0.54545455
+Confusion matrix:
+[[22  8]
+ [ 7  9]]
+----------------------------------------
+
+Kidney
+Training shape: (320, 34)
+Testing shape: (80, 34)
+Model: logit
+Parameters: {'C': 7.684871391021196}
+Fallback parameters: False
+AUC: 1.00000000
+F1: 1.00000000
+Confusion matrix:
+[[52  0]
+ [ 0 28]]
+----------------------------------------
+
+Diabetic
+Training shape: (920, 19)
+Testing shape: (231, 19)
+Model: logit
+Parameters: {'C': 36.93265166177999}
+Fallback parameters: False
+AUC: 0.76122573
+F1: 0.75536481
+Confusion matrix:
+[[86 17]
+ [40 88]]
+----------------------------------------
+Model: xgboost
+Parameters: {'colsample_bytree': 0.8248482320289341, 'learning_rate': 0.14203360120307623, 'max_depth': 13, 'min_child_weight': 4, 'subsample': 0.9104129951455525}
+Fallback parameters: False
+AUC: 0.69125455
+F1: 0.70247934
+Confusion matrix:
+[[74 29]
+ [43 85]]
+----------------------------------------
+Model: rf
+Parameters: {'max_features': 0.28410303032796097}
+Fallback parameters: False
+AUC: 0.71753641
+F1: 0.72727273
+Confusion matrix:
+[[77 26]
+ [40 88]]
+----------------------------------------
+Model: gbm
+Parameters: {'learning_rate': 0.9309427160388803}
+Fallback parameters: False
+AUC: 0.70012894
+F1: 0.72509960
+Confusion matrix:
+[[71 32]
+ [37 91]]
+----------------------------------------
+
+Ionosphere
+Training shape: (280, 34)
+Testing shape: (71, 34)
+Model: logit
+Parameters: {'C': 3.1511682439757664}
+Fallback parameters: False
+AUC: 0.82142857
+F1: 0.89583333
+Confusion matrix:
+[[18 10]
+ [ 0 43]]
+----------------------------------------
+Model: xgboost
+Parameters: {'colsample_bytree': 0.7841603122917857, 'learning_rate': 0.05359191292597354, 'max_depth': 18, 'min_child_weight': 1, 'subsample': 0.9398111260528605}
+Fallback parameters: False
+AUC: 0.92857143
+F1: 0.95555556
+Confusion matrix:
+[[24  4]
+ [ 0 43]]
+----------------------------------------
+Model: rf
+Parameters: {'max_features': 0.36924614159936253}
+Fallback parameters: False
+AUC: 0.91694352
+F1: 0.94382022
+Confusion matrix:
+[[24  4]
+ [ 1 42]]
+----------------------------------------
+Model: gbm
+Parameters: {'learning_rate': 0.9014381490949197}
+Fallback parameters: False
+AUC: 0.91694352
+F1: 0.94382022
+Confusion matrix:
+[[24  4]
+ [ 1 42]]
+----------------------------------------
+
+spect
+Training shape: (182, 22)
+Testing shape: (46, 22)
+Model: logit
+Parameters: {'C': 0.008404953017023617}
+Fallback parameters: False
+AUC: 0.71041667
+F1: 0.62857143
+Confusion matrix:
+[[22  8]
+ [ 5 11]]
+----------------------------------------
+Model: xgboost
+Parameters: {'colsample_bytree': 0.9949054597002309, 'learning_rate': 0.002365189262195023, 'max_depth': 19, 'min_child_weight': 4, 'subsample': 0.5742209564146421}
+Fallback parameters: False
+AUC: 0.69583333
+F1: 0.60606061
+Confusion matrix:
+[[23  7]
+ [ 6 10]]
+----------------------------------------
+Model: rf
+Parameters: {'max_features': 0.2639363986751836}
+Fallback parameters: False
+AUC: 0.71041667
+F1: 0.62857143
+Confusion matrix:
+[[22  8]
+ [ 5 11]]
+----------------------------------------
+Model: gbm
+Parameters: {'learning_rate': 0.003551757896533841}
+Fallback parameters: False
+AUC: 0.64791667
+F1: 0.54545455
+Confusion matrix:
+[[22  8]
+ [ 7  9]]
+----------------------------------------
+
+Kidney
+Training shape: (320, 34)
+Testing shape: (80, 34)
+Model: logit
+Parameters: {'C': 7.684871391021196}
+Fallback parameters: False
+AUC: 1.00000000
+F1: 1.00000000
+Confusion matrix:
+[[52  0]
+ [ 0 28]]
+----------------------------------------
+Model: xgboost
+Parameters: {'colsample_bytree': 0.7674277304679169, 'learning_rate': 0.8387499596217333, 'max_depth': 21, 'min_child_weight': 1, 'subsample': 0.6368816875173573}
+Fallback parameters: False
+AUC: 0.99038462
+F1: 0.98245614
+Confusion matrix:
+[[51  1]
+ [ 0 28]]
+----------------------------------------
+Model: rf
+Parameters: {'max_features': 0.07292356391786636}
+Fallback parameters: False
+AUC: 1.00000000
+F1: 1.00000000
+Confusion matrix:
+[[52  0]
+ [ 0 28]]
+----------------------------------------
+Model: gbm
+Parameters: {'learning_rate': 0.20152057295510994}
+Fallback parameters: False
+AUC: 0.97252747
+F1: 0.96428571
+Confusion matrix:
+[[51  1]
+ [ 1 27]]
+----------------------------------------
+
+Credit
+Training shape: (552, 21)
+Testing shape: (138, 21)
+Model: logit
+Parameters: {'C': 8.825654195980245}
+Fallback parameters: False
+AUC: 0.84054622
+F1: 0.83823529
+Confusion matrix:
+[[59 11]
+ [11 57]]
+----------------------------------------
+Model: xgboost
+Parameters: {'colsample_bytree': 0.8192078435622931, 'learning_rate': 0.04082076637969034, 'max_depth': 30, 'min_child_weight': 4, 'subsample': 0.5630989325729032}
+Fallback parameters: False
+AUC: 0.83403361
+F1: 0.83916084
+Confusion matrix:
+[[55 15]
+ [ 8 60]]
+----------------------------------------
+Model: rf
+Parameters: {'max_features': 0.25291889780471943}
+Fallback parameters: False
+AUC: 0.86995798
+F1: 0.87142857
+Confusion matrix:
+[[59 11]
+ [ 7 61]]
+----------------------------------------
+Model: gbm
+Parameters: {'learning_rate': 0.6481066276132068}
+Fallback parameters: False
+AUC: 0.82752101
+F1: 0.84000000
+Confusion matrix:
+[[51 19]
+ [ 5 63]]
+----------------------------------------
+
+Climate
+Training shape: (432, 20)
+Testing shape: (108, 20)
+Model: logit
+Parameters: {'C': 0.6126816937006209}
+Fallback parameters: False
+AUC: 0.83979592
+F1: 0.97461929
+Confusion matrix:
+[[ 7  3]
+ [ 2 96]]
+----------------------------------------
+Model: xgboost
+Parameters: {'colsample_bytree': 0.9099670479973356, 'learning_rate': 0.07544632925201991, 'max_depth': 13, 'min_child_weight': 1, 'subsample': 0.8165929814577998}
+Fallback parameters: False
+AUC: 0.75000000
+F1: 0.97512438
+Confusion matrix:
+[[ 5  5]
+ [ 0 98]]
+----------------------------------------
+Model: rf
+Parameters: {'max_features': 0.5549738215312886}
+Fallback parameters: False
+AUC: 0.65000000
+F1: 0.96551724
+Confusion matrix:
+[[ 3  7]
+ [ 0 98]]
+----------------------------------------
+Model: gbm
+Parameters: {'learning_rate': 0.6712852810423003}
+Fallback parameters: False
+AUC: 0.70000000
+F1: 0.97029703
+Confusion matrix:
+[[ 4  6]
+ [ 0 98]]
+----------------------------------------
+
+Spam
+Training shape: (3368, 57)
+Testing shape: (842, 57)
+Model: logit
+Parameters: {'C': 1.5951395685820593}
+Fallback parameters: False
+AUC: 0.91387394
+F1: 0.90257880
+Confusion matrix:
+[[459  24]
+ [ 44 315]]
+----------------------------------------
+Model: xgboost
+Parameters: {'colsample_bytree': 0.5797533950807812, 'learning_rate': 0.010633974832451654, 'max_depth': 29, 'min_child_weight': 2, 'subsample': 0.7744504284975717}
+Fallback parameters: False
+AUC: 0.94858043
+F1: 0.94301994
+Confusion matrix:
+[[471  12]
+ [ 28 331]]
+----------------------------------------
+Model: rf
+Parameters: {'max_features': 0.006286062615862398}
+Fallback parameters: False
+AUC: 0.94718767
+F1: 0.94151213
+Confusion matrix:
+[[471  12]
+ [ 29 330]]
+----------------------------------------
+Model: gbm
+Parameters: {'learning_rate': 0.1474642828160217}
+Fallback parameters: False
+AUC: 0.94618996
+F1: 0.93935120
+Confusion matrix:
+[[466  17]
+ [ 26 333]]
+----------------------------------------

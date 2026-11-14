@@ -1,0 +1,31 @@
+import os
+import pandas as pd
+
+from preprocessing.datasets_preprocessing import Discretize
+from definitions import datasets, files_names, targets_names
+
+logs_dir = 'uci_logs'
+
+paper_datasets = [
+    'Diabetic', 'Ionosphere', 'spect', 'Kidney',
+    'Credit', 'Climate', 'Spam'
+]
+
+for ds in paper_datasets:
+    filename = files_names[ds]
+    target_name = targets_names[ds]
+
+    input_path = os.path.join(
+        logs_dir,
+        f'preprocessed_not_discretized_dataset_{filename}.csv'
+    )
+
+    df = pd.read_csv(input_path)
+
+    # Đưa target về cuối để Discretize không chia bin target
+    target = df.pop(target_name)
+    df[target_name] = target
+
+    Discretize(df, filename)
+
+    print(f'[DONE] {ds}: {filename}')

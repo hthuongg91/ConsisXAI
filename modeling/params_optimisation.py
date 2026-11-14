@@ -1,47 +1,55 @@
+import os
+import pickle
 
+import hyperopt
 import pandas as pd
 import xgboost as xgb
-from sklearn.model_selection import cross_val_score
-from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
-from sklearn.preprocessing import StandardScaler
-import hyperopt
-from hyperopt import hp, tpe, Trials, STATUS_OK, fmin
+from hyperopt import STATUS_OK, Trials, fmin, hp, tpe
 from hyperopt.pyll.base import scope
+from sklearn.ensemble import GradientBoostingClassifier, RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import cross_val_score
+from sklearn.preprocessing import StandardScaler
+
 from utils.retrieval import retrieve_artefact
-import ast
-import pickle
-import os
 
-datasets_folder = 'datasets_files'
+
+# Thư mục dữ liệu và kết quả
 logs_dir = 'uci_logs'
-models_folder = os.path.join(logs_dir, 'models')
 params_dir = 'optimal_params'
-datasets_folder = logs_dir
 
-info_df = pd.read_csv(
-    os.path.join(logs_dir, 'datasets_info.csv'),
-    sep=';'
-)
+os.makedirs(params_dir, exist_ok=True)
 
+info_path = os.path.join(logs_dir, 'datasets_info.csv')
+if not os.path.exists(info_path):
+    raise FileNotFoundError(
+        f"Không tìm thấy {info_path}. Hãy chạy definitions.py trước."
+    )
+
+info_df = pd.read_csv(info_path, sep=';')
+
+# 7 dataset được chọn cho thực nghiệm
 datasets = [
-    'Diabetic', 'Ionosphere', 'spect', 'Kidney', 'Credit',
-    'Climate', 'Adult', 'TruckFailure', 'Spam'
+    'Diabetic',
+    'Ionosphere',
+    'spect',
+    'Kidney',
+    'Credit',
+    'Climate',
+    'Spam'
 ]
 
-params_dir = 'optimal_params'
-if not os.path.exists(params_dir):
-    os.makedirs(params_dir)
-
-print(os.path.abspath(params_dir))
+# Số lần thử và random state theo thiết lập của tác giả
+n_iter = 50
+random_state = 42
 
 
 def create_and_evaluate_model(args):
-    global trial_nr, file_name
+    global trial_nr, file_name, cls_method, X, y, fout_all
 
     trial_nr += 1
 
-    if cls_method == "xgboost":
+    if cls_method == 'xgboost':
         cls = xgb.XGBClassifier(
             objective='binary:logistic',
             n_estimators=500,
@@ -62,9 +70,9 @@ def create_and_evaluate_model(args):
             n_jobs=-1
         )
 
-    elif cls_method == "logit":
+    elif cls_method == 'logit':
         cls = LogisticRegression(
-            C=2**args['C'],
+            C=2 ** args['C'],
             random_state=random_state,
             max_iter=1000
         )
@@ -76,6 +84,11 @@ def create_and_evaluate_model(args):
             random_state=random_state
         )
 
+    else:
+        raise ValueError(f'Classifier không được hỗ trợ: {cls_method}')
+
+    # Giữ nguyên cách đánh giá của tác giả: cross-validation 5 folds,
+    # tối ưu accuracy mặc định của cross_val_score.
     score = cross_val_score(
         cls,
         X,
@@ -84,27 +97,30 @@ def create_and_evaluate_model(args):
         n_jobs=-1
     ).mean()
 
-    for k, v in args.items():
+    for param_name, param_value in args.items():
         fout_all.write(
-            "%s;%s;%s;%s;%s;%s\n"
-            % (trial_nr, file_name, cls_method, k, v, score)
+            '%s;%s;%s;%s;%s;%s\n'
+            % (
+                trial_nr,
+                file_name,
+                cls_method,
+                param_name,
+                param_value,
+                score
+            )
         )
 
     fout_all.flush()
-
     return {'loss': -score, 'status': STATUS_OK}
 
 
-######################################################################
-n_iter = 50
-random_state = 42
-
+# Không gian tìm kiếm giữ nguyên như bản gốc
 space_args = {
     'xgboost': {
-        'learning_rate': hp.uniform("learning_rate", 0, 1),
-        'subsample': hp.uniform("subsample", 0.5, 1),
+        'learning_rate': hp.uniform('learning_rate', 0, 1),
+        'subsample': hp.uniform('subsample', 0.5, 1),
         'max_depth': scope.int(hp.quniform('max_depth', 4, 30, 1)),
-        'colsample_bytree': hp.uniform("colsample_bytree", 0.5, 1),
+        'colsample_bytree': hp.uniform('colsample_bytree', 0.5, 1),
         'min_child_weight': scope.int(
             hp.quniform('min_child_weight', 1, 6, 1)
         )
@@ -116,49 +132,70 @@ space_args = {
         'max_features': hp.uniform('max_features', 0, 1)
     },
     'gbm': {
-        'learning_rate': hp.uniform("learning_rate", 0, 1)
+        'learning_rate': hp.uniform('learning_rate', 0, 1)
     }
 }
 
 
 for ds in datasets:
-    file_name = info_df.loc[
-        info_df['Dataset_name'] == ds,
-        'files_names'
-    ].values[0]
+    matching_rows = info_df.loc[info_df['Dataset_name'] == ds]
 
-    target_name = info_df.loc[
-        info_df['Dataset_name'] == ds,
-        'targets_names'
-    ].values[0]
+    if matching_rows.empty:
+        raise ValueError(
+            f"Dataset '{ds}' không có trong {info_path}. "
+            "Kiểm tra Dataset_name trong datasets_info.csv."
+        )
+
+    file_name = matching_rows['files_names'].iloc[0]
+    target_name = matching_rows['targets_names'].iloc[0]
+
+    preprocessed_file = os.path.join(
+        logs_dir,
+        f'preprocessed_not_discretized_dataset_{file_name}.csv'
+    )
+
+    if not os.path.exists(preprocessed_file):
+        raise FileNotFoundError(
+            f"Không tìm thấy dữ liệu đã tiền xử lý: {preprocessed_file}. "
+            "Hãy kiểm tra definitions.py."
+        )
 
     df = retrieve_artefact(
         logs_dir,
-        'preprocessed_not_discretized_dataset_%s' % file_name,
+        f'preprocessed_not_discretized_dataset_{file_name}',
         '.csv',
         ','
     )
 
+    if target_name not in df.columns:
+        raise ValueError(
+            f"Không tìm thấy cột target '{target_name}' trong "
+            f"{preprocessed_file}. Các cột hiện có: {df.columns.tolist()}"
+        )
+
     y = df[target_name]
-    X = df.drop([target_name], axis=1)
+    X_original = df.drop(columns=[target_name])
 
     for cls_method in ['logit', 'xgboost', 'rf', 'gbm']:
         outfile = os.path.join(
             params_dir,
-            "optimal_params_%s_%s.pickle" % (cls_method, file_name)
+            f'optimal_params_{cls_method}_{file_name}.pickle'
         )
 
+        # Giữ cơ chế bỏ qua nếu đã có kết quả tối ưu.
         if os.path.exists(outfile):
-            print("SKIP:", cls_method, file_name)
+            print(f'SKIP: {cls_method} - {file_name} (đã có params)')
             continue
 
-        print("RUN:", cls_method, file_name)
+        print(f'RUN: {cls_method} - {file_name}')
 
-        if cls_method == "logit":
-            sscaler = StandardScaler()
-            X_model = sscaler.fit_transform(X)
+        # Chỉ chuẩn hóa đầu vào của Logistic Regression.
+        # Các model còn lại nhận dữ liệu gốc, không bị ảnh hưởng bởi Logit.
+        if cls_method == 'logit':
+            scaler = StandardScaler()
+            X = scaler.fit_transform(X_original)
         else:
-            X_model = X
+            X = X_original
 
         trial_nr = 0
         trials = Trials()
@@ -166,33 +203,24 @@ for ds in datasets:
 
         output_file = os.path.join(
             logs_dir,
-            "param_optim_all_trials_%s_%s.csv"
-            % (cls_method, file_name)
+            f'param_optim_all_trials_{cls_method}_{file_name}.csv'
         )
 
-        with open(output_file, "w", encoding="utf-8") as fout_all:
-            fout_all.write(
-                "%s;%s;%s;%s;%s;%s\n"
-                % ("iter", "dataset", "cls", "param", "value", "score")
+        with open(output_file, 'w', encoding='utf-8') as fout_all:
+            fout_all.write('iter;dataset;cls;param;value;score\n')
+
+            best = fmin(
+                fn=create_and_evaluate_model,
+                space=space,
+                algo=tpe.suggest,
+                max_evals=n_iter,
+                trials=trials
             )
 
-            X_original = X
-            X = X_model
-
-            try:
-                current_n_iter = 10 if ds == 'TruckFailure' else n_iter
-                best = fmin(
-                    create_and_evaluate_model,
-                    space,
-                    algo=tpe.suggest,
-                    max_evals=n_iter,
-                    trials=trials
-                )
-            finally:
-                X = X_original
-
         best_params = hyperopt.space_eval(space, best)
-        print('best params:', best_params)
+        print('Best params:', best_params)
 
-        with open(outfile, "wb") as fout:
+        with open(outfile, 'wb') as fout:
             pickle.dump(best_params, fout)
+
+print('Hoàn thành tối ưu tham số.')
